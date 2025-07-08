@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Report Emergency</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+  <style>
+    body {
+      background-color: #fff;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    .emergency-card {
+      background-color: #f2f2f2;
+      border-radius: 15px;
+      padding: 15px;
+      margin-bottom: 20px;
+    }
+
+    .emergency-option-wrapper {
+      cursor: pointer;
+      text-align: center;
+    }
+
+    .checkmark {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      font-size: 14px;
+      color: white;
+      display: none;
+      z-index: 1;
+    }
+
+    .emergency-option {
+      width: 80px;
+      height: 80px;
+      border-radius: 15px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: auto;
+      margin-bottom: 5px;
+      font-size: 28px;
+      color: white;
+      position: relative;
+    }
+
+    .medical { background-color: #4CAF50; }
+    .fire { background-color: #FBC02D; }
+    .accident { background-color: #D32F2F; }
+    .robbery { background-color: #000000; }
+    .others { background-color: #1976D2; }
+
+    .submit-btn {
+      background-color: #d9d9d9;
+      color: black;
+      border: none;
+      width: 100%;
+      padding: 12px;
+      border-radius: 10px;
+      font-weight: 600;
+    }
+
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      border-top: 1px solid #ccc;
+      background-color: #fff;
+      display: flex;
+      justify-content: space-around;
+      padding: 10px 0;
+      z-index: 999;
+    }
+
+    .bottom-nav a {
+      text-decoration: none;
+      color: #000;
+      position: relative;
+    }
+
+    .bottom-nav i {
+      font-size: 20px;
+    }
+
+    .active-tab {
+      position: absolute;
+      top: -25px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: #fff;
+      border-radius: 50%;
+      padding: 12px;
+      font-size: 20px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+      color: #1976D2;
+      z-index: 1000;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container py-3 mb-5">
+    <div class="mb-3">
+      <a href="#" class="text-dark">
+        <i class="fas fa-arrow-left"></i>
+      </a>
+      <h5 class="d-inline ms-2">Report Emergency</h5>
+    </div>
+
+    <p class="fw-bold">Select Emergency Type</p>
+
+    <div class="row text-center emergency-card">
+      <div class="col-4 mb-3 emergency-option-wrapper" onclick="selectEmergency(this)">
+        <div class="emergency-option medical">
+          <span class="checkmark"><i class="fas fa-check"></i></span>
+          <i class="fas fa-notes-medical"></i>
+        </div>
+        <small>Medical</small>
+      </div>
+      <div class="col-4 mb-3 emergency-option-wrapper" onclick="selectEmergency(this)">
+        <div class="emergency-option fire">
+          <span class="checkmark"><i class="fas fa-check"></i></span>
+          <i class="fas fa-fire-flame-curved"></i>
+        </div>
+        <small>Fire</small>
+      </div>
+      <div class="col-4 mb-3 emergency-option-wrapper" onclick="selectEmergency(this)">
+        <div class="emergency-option accident">
+          <span class="checkmark"><i class="fas fa-check"></i></span>
+          <i class="fas fa-car-burst"></i>
+        </div>
+        <small>Accident</small>
+      </div>
+      <div class="col-4 mb-3 emergency-option-wrapper" onclick="selectEmergency(this)">
+        <div class="emergency-option robbery">
+          <span class="checkmark"><i class="fas fa-check"></i></span>
+          <i class="fas fa-people-robbery"></i>
+        </div>
+        <small>Robbery</small>
+      </div>
+      <div class="col-4 mb-3 emergency-option-wrapper" onclick="selectEmergency(this)">
+        <div class="emergency-option others">
+          <span class="checkmark"><i class="fas fa-check"></i></span>
+          <i class="fas fa-ellipsis"></i>
+        </div>
+        <small>Others</small>
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="location" class="form-label fw-bold">Location</label>
+      <div class="input-group">
+        <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
+        <input type="text" class="form-control" id="location" value="Okefia, Osogbo." />
+      </div>
+    </div>
+
+    <button class="submit-btn">Submit</button>
+  </div>
+
+  <!-- Bottom Navbar -->
+  <div class="bottom-nav">
+    <a href="#"><i class="fas fa-home"></i></a>
+    <a href="#"><i class="fas fa-camera"></i></a>
+    <a href="#"><i class="fas fa-search"></i></a>
+    <a href="#"><i class="fas fa-user-circle active-tab"></i></a>
+  </div>
+
+  <script>
+    function selectEmergency(selected) {
+      document.querySelectorAll('.checkmark').forEach(el => el.style.display = 'none');
+      selected.querySelector('.checkmark').style.display = 'block';
+    }
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
