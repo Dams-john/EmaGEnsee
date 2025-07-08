@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Report Emergency</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-sA+4zzzz+Hd8Bt98fwBn9HXKXwz2bMZ67vXC2FuyM3k=" crossorigin=""/>
+  <style>
+    body {
+      background-color: #fff;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    .emergency-card {
+      background-color: #f2f2f2;
+      border-radius: 15px;
+      padding: 15px;
+      margin-bottom: 20px;
+    }
+
+    .emergency-option-wrapper {
+      cursor: pointer;
+      text-align: center;
+    }
+
+    .checkmark {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      font-size: 14px;
+      color: white;
+      display: none;
+      z-index: 1;
+    }
+
+    .emergency-option {
+      width: 80px;
+      height: 80px;
+      border-radius: 15px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: auto;
+      margin-bottom: 5px;
+      font-size: 28px;
+      color: white;
+      position: relative;
+    }
+
+    .medical { background-color: #4CAF50; }
+    .fire { background-color: #FBC02D; }
+    .accident { background-color: #D32F2F; }
+    .robbery { background-color: #000000; }
+    .others { background-color: #1976D2; }
+
+    .submit-btn {
+      background-color: #d9d9d9;
+      color: black;
+      border: none;
+      width: 100%;
+      padding: 12px;
+      border-radius: 10px;
+      font-weight: 600;
+    }
+
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      border-top: 1px solid #ccc;
+      background-color: #fff;
+      display: flex;
+      justify-content: space-around;
+      padding: 10px 0;
+      z-index: 999;
+    }
+
+    .bottom-nav a {
+      text-decoration: none;
+      color: #000;
+      text-align: center;
+      font-size: 12px;
+      flex-direction: column;
+      display: flex;
+      align-items: center;
+    }
+
+    .bottom-nav i {
+      font-size: 20px;
+    }
+
+    .bottom-nav .active {
+      color: #1976D2;
+    }
+
+    .location-modal, .success-modal {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: #fff;
+      border-radius: 20px 20px 0 0;
+      padding: 20px;
+      box-shadow: 0 -2px 12px rgba(0, 0, 0, 0.15);
+      z-index: 10000;
+      display: none;
+      animation: slideUp 0.4s ease-out;
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(100%); }
+      to { transform: translateY(0); }
+    }
+
+    #map {
+      height: 200px;
+      border-radius: 10px;
+      margin-bottom: 15px;
+    }
+
+    .success-icon {
+      font-size: 50px;
+      color: #4CAF50;
+    }
+  </style>
+</head>
+<body>
+  <div class="container py-3 mb-5">
+    <div class="mb-3">
+      <a href="#" class="text-dark">
+        <i class="fas fa-arrow-left"></i>
+      </a>
+      <h5 class="d-inline ms-2">Report Emergency</h5>
+    </div>
+
+    <p class="fw-bold">Select Emergency Type</p>
+
+    <div class="row text-center emergency-card">
+      <div class="col-4 mb-3 emergency-option-wrapper" onclick="selectEmergency(this)">
+        <div class="emergency-option medical">
+          <span class="checkmark"><i class="fas fa-check"></i></span>
+          <i class="fas fa-notes-medical"></i>
+        </div>
+        <small>Medical</small>
+      </div>
+      <div class="col-4 mb-3 emergency-option-wrapper" onclick="selectEmergency(this)">
+        <div class="emergency-option fire">
+          <span class="checkmark"><i class="fas fa-check"></i></span>
+          <i class="fas fa-fire-flame-curved"></i>
+        </div>
+        <small>Fire</small>
+      </div>
+      <div class="col-4 mb-3 emergency-option-wrapper" onclick="selectEmergency(this)">
+        <div class="emergency-option accident">
+          <span class="checkmark"><i class="fas fa-check"></i></span>
+          <i class="fas fa-car-burst"></i>
+        </div>
+        <small>Accident</small>
+      </div>
+      <div class="col-4 mb-3 emergency-option-wrapper" onclick="selectEmergency(this)">
+        <div class="emergency-option robbery">
+          <span class="checkmark"><i class="fas fa-check"></i></span>
+          <i class="fas fa-people-robbery"></i>
+        </div>
+        <small>Robbery</small>
+      </div>
+      <div class="col-4 mb-3 emergency-option-wrapper" onclick="selectEmergency(this)">
+        <div class="emergency-option others">
+          <span class="checkmark"><i class="fas fa-check"></i></span>
+          <i class="fas fa-ellipsis"></i>
+        </div>
+        <small>Others</small>
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="location" class="form-label fw-bold">Location</label>
+      <div class="input-group">
+        <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
+        <input type="text" class="form-control" id="location" value="Okefia, Osogbo." />
+      </div>
+    </div>
+
+    <button class="submit-btn" onclick="showLocationModal()">Submit</button>
+  </div>
+
+  <div class="bottom-nav">
+    <a href="#">
+      <i class="fas fa-home"></i>
+      <span>Home</span>
+    </a>
+    <a href="#">
+      <i class="fas fa-newspaper"></i>
+      <span>News</span>
+    </a>
+    <a href="#">
+      <i class="fas fa-history"></i>
+      <span>History</span>
+    </a>
+    <a href="#" class="active">
+      <i class="fas fa-user-circle"></i>
+      <span>Profile</span>
+    </a>
+  </div>
+
+  <div class="location-modal" id="locationModal">
+    <div class="modal-header-custom d-flex align-items-center mb-2">
+      <a href="#" class="text-dark back-btn me-2" onclick="hideLocationModal()"><i class="fas fa-arrow-left"></i></a>
+      <h6 class="m-0 fw-bold">Select Location</h6>
+    </div>
+
+    <div class="alert alert-info text-center py-2" id="realtimeLocation">
+      Detecting your location...
+    </div>
+
+    <div id="map"></div>
+
+    <button class="submit-btn mt-3" onclick="showSuccessModal()">Confirm Location</button>
+  </div>
+
+  <div class="success-modal" id="successModal">
+    <div class="text-center">
+      <div class="success-icon mb-3">
+        <i class="fas fa-check-circle"></i>
+      </div>
+      <h5 class="fw-bold mb-2">Success</h5>
+      <p class="text-muted mb-3">Emergency Reported Successfully</p>
+      <button class="btn btn-dark w-100" onclick="hideSuccessModal()">Done</button>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-QVqq7nyjAqMjNzyU4QnAduK1xrbnE5xC8VwKzF3A0XM=" crossorigin=""></script>
+  <script>
+    function selectEmergency(selected) {
+      document.querySelectorAll('.checkmark').forEach(el => el.style.display = 'none');
+      selected.querySelector('.checkmark').style.display = 'block';
+    }
+
+    let map, marker;
+
+    function showLocationModal() {
+      document.getElementById('locationModal').style.display = 'block';
+
+      if (!map) {
+        map = L.map('map').setView([7.7697, 4.5560], 13);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          maxZoom: 19,
+          attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(map);
+      }
+
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(async function(position) {
+          const lat = position.coords.latitude;
+          const lon = position.coords.longitude;
+          map.setView([lat, lon], 15);
+
+          if (marker) map.removeLayer(marker);
+          marker = L.marker([lat, lon]).addTo(map);
+
+          try {
+            const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lon}`);
+            const data = await response.json();
+            const address = data.address;
+            const display = `${address.suburb || ''}, ${address.city || address.town || ''}, ${address.state || ''}`;
+            document.getElementById('realtimeLocation').innerText = `📍 ${display}`;
+          } catch (error) {
+            document.getElementById('realtimeLocation').innerText = "Could not fetch real-time address.";
+          }
+        }, function() {
+          document.getElementById('realtimeLocation').innerText = "Location permission denied.";
+        });
+      } else {
+        document.getElementById('realtimeLocation').innerText = "Geolocation not supported.";
+      }
+    }
+
+    function hideLocationModal() {
+      document.getElementById('locationModal').style.display = 'none';
+    }
+
+    function showSuccessModal() {
+      hideLocationModal();
+      document.getElementById('successModal').style.display = 'block';
+    }
+
+    function hideSuccessModal() {
+      document.getElementById('successModal').style.display = 'none';
+    }
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
