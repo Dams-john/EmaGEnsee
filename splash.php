@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Splash</title>
+  <style>
+    body, html {
+      height: 100%;
+      margin: 0;
+    }
+    .main {
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    img {
+      width: 200px;
+    }
+  </style>
+  <script>
+     setTimeout(function () {
+      window.location.href = "signup_home.php";  
+    }, 6000);
+  </script>
+<link rel="manifest" href="/manifest.json">
+
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+          navigator.serviceWorker.register('/service-worker.js');
+        });
+      }
+    </script>
+    
+</head>
+<body>
+  <div class="main">
+    <img src="logo.png" alt="Logo">
+  </div>
+</body>
+</html>

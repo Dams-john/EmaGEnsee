@@ -1,0 +1,14 @@
+{
+  "settings_title": "Settings",
+  "settings": "Settings",
+  "security": "SECURITY",
+  "change_password": "Change Password",
+  "reset_pin": "Reset Pin",
+  "preference": "PREFERENCE",
+  "opt_sms": "Opt-sms for Notification",
+  "change_theme": "Change Theme",
+  "select_language": "Select Language",
+  "others": "OTHERS",
+  "contact_support": "Contact Support",
+  "about_us": "About Us"
+}

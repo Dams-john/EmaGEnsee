@@ -1,0 +1,76 @@
+/* login css */
+    .form-label {
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    .login-container {
+      max-width: 400px;
+      margin: auto;
+      padding: 20px;
+    }
+
+    .back-arrow {
+      font-size: 1.5rem;
+      margin-bottom: 10px;
+      cursor: pointer;
+    }
+
+    .btn-dark {
+      width: 100%;
+      font-weight: bold;
+      padding: 10px;
+    }
+
+    .signup-link {
+      text-align: center;
+      margin-top: 10px;
+      font-size: 0.9rem;
+    }
+
+    .signup-link a {
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+
+
+
+    /* signup */
+        body {
+      font-family: Arial, sans-serif;
+    }
+
+    .form-label {
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    .signup-container {
+      max-width: 400px;
+      margin: auto;
+      padding: 20px;
+    }
+
+    .back-arrow {
+      font-size: 1.5rem;
+      margin-bottom: 10px;
+      cursor: pointer;
+    }
+
+    .btn-dark {
+      width: 100%;
+      font-weight: bold;
+      padding: 10px;
+    }
+
+    .login-link {
+      text-align: center;
+      margin-top: 10px;
+      font-size: 0.9rem;
+    }
+
+    .login-link a {
+      font-weight: bold;
+      text-decoration: none;
+    }
